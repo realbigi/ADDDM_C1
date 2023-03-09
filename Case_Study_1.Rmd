@@ -1,0 +1,53 @@
+---
+title: "Case Study 1"
+author: "Michael Daniel Bigler and Liam Arthur Phan"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::lockdown:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    number_sections: true
+toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	include = TRUE,
+	fig.align = "center",
+	fig.width = 10)
+rm(list = ls())
+cat("\014")
+```
+
+```{r packages}
+library(ggplot2)
+library(DT)
+```
+
+```{r load data}
+df <- read.csv('Case_Study_1.csv')
+datatable(df)
+```
+
+```{r scatter plot}
+A <- df$manufacturing_cost[1]
+
+df$manufacturing_cost_interpol <- 
+ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + 
+  geom_point() + 
+  geom_line()
+```
+
+$$
+PR = (P_0 * (2X)^{-E})/(P_0*X^{-E})=2^{-E}
+$$
+
+```{r}
+b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
+
+
+```
