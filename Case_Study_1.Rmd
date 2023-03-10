@@ -3,13 +3,8 @@ title: "Case Study 1"
 author: "Michael Daniel Bigler and Liam Arthur Phan"
 date: "`r Sys.Date()`"
 output:
-  rmdformats::lockdown:
+  rmdformats::downcute:
     code_folding: hide
-    toc: true
-    toc_float: true
-    toc_collapsed: true
-    number_sections: true
-toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -23,31 +18,42 @@ rm(list = ls())
 cat("\014")
 ```
 
+# Packages
+
 ```{r packages}
 library(ggplot2)
 library(DT)
 ```
+
+# Dataset
 
 ```{r load data}
 df <- read.csv('Case_Study_1.csv')
 datatable(df)
 ```
 
+# Visualisation
+
+## Scatterplot
+
 ```{r scatter plot}
+
 A <- df$manufacturing_cost[1]
 
-df$manufacturing_cost_interpol <- 
-ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + 
-  geom_point() + 
-  geom_line()
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point() + geom_line()
+Plot1
 ```
+
+## Formula
 
 $$
 PR = (P_0 * (2X)^{-E})/(P_0*X^{-E})=2^{-E}
 $$
 
-```{r}
-b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
+## Mean
 
+```{r}
+
+b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
 
 ```
