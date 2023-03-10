@@ -44,7 +44,7 @@ datatable(df)
 ```{r Scatter plot}
 
 A <- df$manufacturing_cost[1]
-b <- exp(mean((log(df$manufacturing_cost)-log(A))/log(df$number_of_solar_panels)))
+b <- mean((log(df$manufacturing_cost)-log(A))/log(df$number_of_solar_panels))
 
 experience_curve <- function(X, A, b){
   Y <- A*X^b
@@ -53,7 +53,7 @@ experience_curve <- function(X, A, b){
 
 df$Y_func <- experience_curve(df$number_of_solar_panels, A, b)
   
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1") + geom_line(aes(y=Y_func), colour="#F0C987", size=1)
 
 Plot1
 
@@ -63,7 +63,7 @@ Plot1
 
 $$
 Y = AX^b
-$$ 
+$$
 
 > We want a linear relationship, thus log transformation:
 
@@ -102,7 +102,9 @@ Plot2
 
 ```
 
-## Estimates
+# Exercise 2
+
+## Log Linear Regression
 
 ```{r Estimates}
 
@@ -110,19 +112,37 @@ intercept <- A_log
 
 fit <- lm(I(df_log$number_of_solar_panels - intercept) ~ 0 + df_log$manufacturing_cost, df_log)
 
+b_log <- fit$coefficients
+
 summary(fit)
 
 
 ```
 
-## Linear Regression
+## Scatterplot and Regression
 
 ```{r Linear Regression}
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = intercept, slope = b, color="#62A287") 
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = intercept, slope = b_log, color="#F0C987", size=1) 
 
 Plot2
 
 ```
 
+## Learning Rate
 
+$$
+b = Slope \: Coefficient = log(learning\: rate)/log_2 
+$$
+
+$$
+Slope \: of \: the \: experience \: rate = 2^b
+$$
+
+```{r Learning Rate}
+
+
+Learning_Rate <- 2^(b_log)
+
+
+```
