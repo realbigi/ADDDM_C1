@@ -29,7 +29,9 @@ library(DT)
 
 ```
 
-# Dataset
+# Exercise 1
+
+## Dataset
 
 ```{r load data}
 
@@ -38,11 +40,9 @@ datatable(df)
 
 ```
 
-# Visualisation
-
 ## Scatterplot
 
-```{r scatter plot}
+```{r Scatter plot}
 
 A <- df$manufacturing_cost[1]
 
@@ -54,13 +54,26 @@ Plot1
 ## Formula
 
 $$
-PR = (P_0 * (2X)^{-E})/(P_0*X^{-E})=2^{-E}
+Y = AX^b
+$$ \> We want a linear relationship, thus log transformation:
+
+$$
+\log(y) = \log(A) + b*\log(X)
 $$
 
-## Mean
+## Beta Parameters Estimation
 
-```{r}
+```{r Beta Estimation}
 
 b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
+
+```
+
+## Data Transformation
+
+```{r Data Transformation}
+
+
+
 
 ```
