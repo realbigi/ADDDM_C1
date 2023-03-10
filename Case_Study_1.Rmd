@@ -53,7 +53,7 @@ experience_curve <- function(X, A, b){
 
 df$Y_func <- experience_curve(df$number_of_solar_panels, A, b)
   
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")
 
 Plot1
 
@@ -66,7 +66,7 @@ Y = AX^b
 $$ \> We want a linear relationship, thus log transformation:
 
 $$
-\log(y) = \log(A) + b*\log(X)
+\log(Y) = \log(A) + b*\log(X)
 $$
 
 ## Beta Parameters Estimation
@@ -94,7 +94,7 @@ df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 A_log <- df_log$manufacturing_cost[1]
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1")
 
 Plot2
 
@@ -117,7 +117,7 @@ summary(fit)
 
 ```{r Linear Regression}
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")  + stat_smooth(method = "lm", col = "#32A287")
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = intercept, slope = b, color="#62A287") 
 
 Plot2
 
