@@ -44,8 +44,19 @@ datatable(df)
 ```{r Scatter plot}
 
 A <- df$manufacturing_cost[1]
+b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
 
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point()
+experience_curve <- function(X, A, b){
+  Y <- A*X^b
+  return(Y)
+}
+
+df$Y_func <- experience_curve(df$number_of_solar_panels, A, b)
+  
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) +
+  geom_point() + 
+  geom_line(aes(y = Y_func))
+
 Plot1
 
 ```
