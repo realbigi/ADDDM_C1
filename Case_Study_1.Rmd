@@ -206,3 +206,39 @@ Target_Mean
 ```
 
 # Exercise 4
+
+```{r Confidence Interval of b}
+
+Confidence_95_b <- confint(fit_2, 2, level = 0.95)
+
+Confidence_95_b
+
+```
+
+```{r Predict CI}
+
+values <- seq(2200, 5000, 100)
+
+targets <- data.frame(number_of_solar_panels = values)
+
+targets$number_of_solar_panels <- log(targets$number_of_solar_panels)
+
+predictions <- predict.lm(fit_2, newdata = targets)
+
+predictions_final <- exp(predictions)
+
+PREDICTIONS <- data.frame(values, predictions_final)
+
+colnames(PREDICTIONS)[1] ="number_of_solar_panels"
+colnames(PREDICTIONS)[2] ="manufacturing_cost"
+
+
+PREDICTIONS_FINAL <- rbind(df_original,PREDICTIONS)
+
+Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Predictinos", x="Number of Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1") + geom_vline(xintercept = 2300, color="#F0C987")
+
+Plot3
+
+
+
+```
