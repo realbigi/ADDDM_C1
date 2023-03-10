@@ -77,7 +77,6 @@ df_log <- df
 df_log$number_of_solar_panels <- log(df_log$number_of_solar_panels)
 df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
-
 ```
 
 ## Scatterplot Log
