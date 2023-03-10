@@ -13,8 +13,7 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE,
 	include = TRUE,
-	fig.align = "center",
-	fig.width = 10)
+	fig.align = "center")
 rm(list = ls())
 cat("\014")
 
@@ -29,7 +28,9 @@ library(DT)
 
 ```
 
-# Dataset
+# Exercise 1
+
+## Dataset
 
 ```{r load data}
 
@@ -38,11 +39,9 @@ datatable(df)
 
 ```
 
-# Visualisation
-
 ## Scatterplot
 
-```{r scatter plot}
+```{r Scatter plot}
 
 A <- df$manufacturing_cost[1]
 
@@ -54,13 +53,40 @@ Plot1
 ## Formula
 
 $$
-PR = (P_0 * (2X)^{-E})/(P_0*X^{-E})=2^{-E}
+Y = AX^b
+$$ \> We want a linear relationship, thus log transformation:
+
+$$
+\log(y) = \log(A) + b*\log(X)
 $$
 
-## Mean
+## Beta Parameters Estimation
 
-```{r}
+```{r Beta Estimation}
 
 b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
+
+```
+
+## Data Log Transformation
+
+```{r Data Transformation}
+
+df_log <- df
+
+df_log$number_of_solar_panels <- log(df_log$number_of_solar_panels)
+df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
+
+
+```
+
+## Scatterplot Log
+
+```{r Scatter plot Log}
+
+A_log <- df_log$manufacturing_cost[1]
+
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point()
+Plot2
 
 ```
