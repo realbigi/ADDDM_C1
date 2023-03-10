@@ -63,7 +63,9 @@ Plot1
 
 $$
 Y = AX^b
-$$ \> We want a linear relationship, thus log transformation:
+$$ 
+
+> We want a linear relationship, thus log transformation:
 
 $$
 \log(Y) = \log(A) + b*\log(X)
