@@ -46,7 +46,7 @@ datatable(df)
 
 A <- df$manufacturing_cost[1]
 
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point() + geom_line()
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point()
 Plot1
 
 ```
