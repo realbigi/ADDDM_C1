@@ -96,7 +96,34 @@ df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 A_log <- df_log$manufacturing_cost[1]
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point()
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")
+
 Plot2
 
 ```
+
+## Estimates
+
+
+```{r Estimates}
+
+intercept <- A_log
+
+fit <- lm(I(df_log$number_of_solar_panels - intercept) ~ 0 + df_log$manufacturing_cost, df_log)
+
+summary(fit)
+
+
+```
+
+## Linear Regression
+
+```{r Linear Regression}
+
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")  + stat_smooth(method = "lm", col = "#32A287")
+
+Plot2
+
+```
+
+
