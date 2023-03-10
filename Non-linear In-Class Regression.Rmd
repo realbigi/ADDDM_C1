@@ -1,0 +1,99 @@
+---
+title: "In-class Exercise _Regression"
+output: html_document
+
+---
+
+
+### Install packages
+For the exercise, you'll need the following packages installed. Run this code by setting `eval = TRUE`. Once you install these packages, R will have access to them for all future sessions, until you update R. So after you install them, set `eval = FALSE` so that R won't run this code every time.
+
+```{r, eval = FALSE}
+
+install.packages('dplyr')
+
+```
+### Add libraries
+
+Install packages puts them in R's long-term memory, but it doesn't yet tell a particular piece of code that you'll be using it. To get the package in in R's short-term memory so you can use it for a particular project, add the library by running the code below.
+
+```{r , message = FALSE}
+library(dplyr) 
+library(ggplot2)
+```
+
+###  Good R Hygiene 
+Good coding practice in R is to start with a clean slate. This will allow anyone---including you---to replicate your results by running the code again without it being contaminated by other data files that might already be in R's memory. So we start by removing all the current data files. 
+
+`rm` means remove. `ls()` will list all the data in memory, and you can run it by itself to see that in the command line on the `console`.
+
+```{r }
+# clear the database
+rm(list=ls()) 
+```
+
+## Reading the data
+
+```{r }
+# Load the data
+data("Boston", package = "MASS")
+Bos=data.frame(Boston$lstat,Boston$medv)
+colnames(Bos)=c("lstat","medv")
+
+
+#This data frame contains the following columns:
+#crim: per capita crime rate by town.
+#zn: proportion of residential land zoned for lots over 25,000 sq.ft.
+#indus: proportion of non-retail business acres per town.
+#chas: Charles River dummy variable (= 1 if tract bounds river; 0 otherwise).
+#nox: nitrogen oxides concentration (parts per 10 million).
+#rm: average number of rooms per dwelling.
+#age: proportion of owner-occupied units built prior to 1940.
+#dis: weighted mean of distances to five Boston employment centres.
+#rad: index of accessibility to radial highways.
+#tax; full-value property-tax rate per \$10,000.
+#ptratio: pupil-teacher ratio by town.
+#black: 1000(Bk − 0.63)2 where Bk is the proportion of blacks by town.
+#lstat: lower status of the population (percent).
+#medv: median value of owner-occupied homes in \$1000s.
+
+
+```
+## Plotting the data
+
+```{r }
+
+ggplot(Bos, aes(lstat, medv) ) +
+  geom_point()+
+    geom_smooth()
+
+```
+
+## Logarithm transformation and regression analysis
+
+```{r,eval=TRUE}
+
+Bos=Bos %>% mutate(Log_lstat=log10(lstat))
+Bos=Bos%>% mutate(Log_medv=log10(medv))
+ggplot(Bos, aes(Log_lstat, Log_medv) ) +
+  geom_point()+
+    geom_smooth(method="lm")
+```
+
+```{r,eval=TRUE}
+#linear regression
+fit2=with(Bos,lm(Log_lstat~Log_medv))
+summary(fit2)
+#Computing confidence intervals for one or more parameters in a fitted model
+CI=confint(fit2)
+CI
+```
+
+## Syntax for Adding rows
+
+```{r}
+Bos=Bos %>% add_row(lstat= seq(10, 20, by =1))
+
+Bos=Bos %>% mutate(Log_lstat =log10(lstat))
+    
+```
