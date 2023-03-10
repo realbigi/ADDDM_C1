@@ -8,6 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE,
@@ -16,20 +17,25 @@ knitr::opts_chunk$set(
 	fig.width = 10)
 rm(list = ls())
 cat("\014")
+
 ```
 
 # Packages
 
 ```{r packages}
+
 library(ggplot2)
 library(DT)
+
 ```
 
 # Dataset
 
 ```{r load data}
+
 df <- read.csv('Case_Study_1.csv')
 datatable(df)
+
 ```
 
 # Visualisation
@@ -42,6 +48,7 @@ A <- df$manufacturing_cost[1]
 
 Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point() + geom_line()
 Plot1
+
 ```
 
 ## Formula
