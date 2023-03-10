@@ -37,6 +37,8 @@ library(DT)
 df <- read.csv('Case_Study_1.csv')
 datatable(df)
 
+df_log <- df
+
 ```
 
 ## Scatterplot
@@ -83,8 +85,6 @@ b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
 
 ```{r Data Transformation}
 
-df_log <- df
-
 df_log$number_of_solar_panels <- log(df_log$number_of_solar_panels)
 df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
@@ -108,24 +108,43 @@ Plot2
 
 ```{r Estimates}
 
-intercept <- A_log
+fit_1 <- lm(I(df_log$number_of_solar_panels - A_log) ~ 0 + df_log$manufacturing_cost, df_log)
 
-fit <- lm(I(df_log$number_of_solar_panels - intercept) ~ 0 + df_log$manufacturing_cost, df_log)
+b_log <- fit_1$coefficients
 
-b_log <- fit$coefficients
-
-summary(fit)
+summary(fit_1)
 
 
 ```
 
 ## Scatterplot and Regression
 
-```{r Linear Regression}
+```{r Log-Linear Regression}
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = intercept, slope = b_log, color="#F0C987", size=1) 
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = A_log, slope = b_log, color="#F0C987", size=1) 
 
 Plot2
+
+```
+
+```{r Free Intercept Estimates}
+
+fit_2 <- lm(df_log$manufacturing_cost  ~ ., df_log)
+
+intercept_log_2 <- fit_2$coefficients[1]
+b_log_2 <- fit_2$coefficients[2]
+
+summary(fit_2)
+
+```
+
+```{r Log-Linear Regression 2}
+
+Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
+
+Plot3
+
+
 
 ```
 
@@ -146,3 +165,9 @@ Learning_Rate <- 2^(b_log)
 
 
 ```
+
+# Exercise 3
+
+
+
+# Exercise 4
