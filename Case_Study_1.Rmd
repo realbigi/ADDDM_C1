@@ -34,10 +34,11 @@ library(DT)
 
 ```{r load data}
 
-df <- read.csv('Case_Study_1.csv')
-datatable(df)
+df_original <- read.csv('Case_Study_1.csv')
+datatable(df_original)
 
-df_log <- df
+df_log <- df_original
+df <- df_original
 
 ```
 
@@ -46,7 +47,9 @@ df_log <- df
 ```{r Scatter plot}
 
 A <- df$manufacturing_cost[1]
+#A <- 2772.258
 b <- mean((log(df$manufacturing_cost)-log(A))/log(df$number_of_solar_panels))
+#b <- -0.1730591
 
 experience_curve <- function(X, A, b){
   Y <- A*X^b
@@ -72,14 +75,6 @@ $$
 $$
 \log(Y) = \log(A) + b*\log(X)
 $$
-
-## Beta Parameters Estimation
-
-```{r Beta Estimation}
-
-b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
-
-```
 
 ## Data Log Transformation
 
@@ -145,7 +140,6 @@ Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + g
 Plot3
 
 
-
 ```
 
 ## Learning Rate
@@ -168,6 +162,47 @@ Learning_Rate <- 2^(b_log)
 
 # Exercise 3
 
+## Predict Future Prices
 
+```{r Predict}
+
+values <- seq(2200, 5000, 100)
+
+targets <- data.frame(number_of_solar_panels = values)
+
+targets$number_of_solar_panels <- log(targets$number_of_solar_panels)
+
+predictions <- predict.lm(fit_2, newdata = targets)
+
+predictions_final <- exp(predictions)
+
+PREDICTIONS <- data.frame(values, predictions_final)
+
+colnames(PREDICTIONS)[1] ="number_of_solar_panels"
+colnames(PREDICTIONS)[2] ="manufacturing_cost"
+
+
+PREDICTIONS_FINAL <- rbind(df_original,PREDICTIONS)
+
+Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Predictinos", x="Number of Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1") + geom_vline(xintercept = 2300, color="#F0C987")
+
+Plot3
+
+
+```
+
+## Mean of Predictions
+
+```{r Mean Of Predictions}
+
+Targets_1 <- c(4700, 4800, 4900, 5000)
+
+Targets_Costs <- PREDICTIONS_FINAL$manufacturing_cost[PREDICTIONS_FINAL$number_of_solar_panels %in% Targets_1]
+
+Target_Mean <- mean(Targets_Costs)
+
+Target_Mean
+
+```
 
 # Exercise 4
