@@ -53,9 +53,7 @@ experience_curve <- function(X, A, b){
 
 df$Y_func <- experience_curve(df$number_of_solar_panels, A, b)
   
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) +
-  geom_point() + 
-  geom_smooth() 
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1")
 
 Plot1
 
@@ -103,7 +101,6 @@ Plot2
 ```
 
 ## Estimates
-
 
 ```{r Estimates}
 
