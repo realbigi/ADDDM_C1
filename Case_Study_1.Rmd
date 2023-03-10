@@ -13,8 +13,7 @@ knitr::opts_chunk$set(
 	message = FALSE,
 	warning = FALSE,
 	include = TRUE,
-	fig.align = "center",
-	fig.width = 10)
+	fig.align = "center")
 rm(list = ls())
 cat("\014")
 
@@ -69,7 +68,7 @@ b <- mean(log(df$manufacturing_cost/A)/log(df$number_of_solar_panels))
 
 ```
 
-## Data Transformation
+## Data Log Transformation
 
 ```{r Data Transformation}
 
@@ -79,5 +78,15 @@ df_log$number_of_solar_panels <- log(df_log$number_of_solar_panels)
 df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 
+```
+
+## Scatterplot Log
+
+```{r Scatter plot Log}
+
+A_log <- df_log$manufacturing_cost[1]
+
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point()
+Plot2
 
 ```
