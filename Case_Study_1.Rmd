@@ -239,7 +239,7 @@ Multiplicate_Model$Y_m[1] <- 2565.734
 colnames(Multiplicate_Model)[1] <- "number_of_solar_panels"
 colnames(Multiplicate_Model)[2] <- "manufacturing_cost"
 
-Plot_5 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Number of Solar Panels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") 
+Plot_5 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Multiplicative Model - Parameters From Log-Log Linear Regression", x="Number of Solar Panels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") 
  
 Plot_5 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manufacturing_cost), color="#F0C987")
 
