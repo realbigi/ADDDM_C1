@@ -58,7 +58,7 @@ experience_curve <- function(X, A, b){
 
 df$Y_func <- experience_curve(df$number_of_solar_panels, A, b)
   
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1") + geom_line(aes(y=Y_func), colour="#F0C987", size=1)
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") + geom_line(aes(y=Y_func), colour="#F0C987", size=1)
 
 Plot1
 
@@ -91,7 +91,7 @@ df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 A_log <- df_log$manufacturing_cost[1]
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1")
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv")
 
 Plot2
 
@@ -99,28 +99,21 @@ Plot2
 
 # Exercise 2
 
-## Log Linear Regression
-
 ```{r Estimates}
 
-fit_1 <- lm(I(df_log$number_of_solar_panels - A_log) ~ 0 + df_log$manufacturing_cost, df_log)
+#fit_1 <- lm(I(df_log$number_of_solar_panels - A_log) ~ 0 + df_log$manufacturing_cost, df_log)
 
-b_log <- fit_1$coefficients
+#b_log <- fit_1$coefficients
 
-summary(fit_1)
-
-
-```
-
-## Scatterplot and Regression
-
-```{r Log-Linear Regression}
-
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = A_log, slope = b_log, color="#F0C987", size=1) 
-
-Plot2
+#summary(fit_1)
 
 ```
+
+## Linear Regression 
+
+### Model
+
+> Log-Log Model with No Fixed Intercept
 
 ```{r Free Intercept Estimates}
 
@@ -133,22 +126,23 @@ summary(fit_2)
 
 ```
 
+### Plot
+
 ```{r Log-Linear Regression 2}
 
-Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Case Study 1") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
+Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
 
 Plot3
 
-
 ```
 
-## Homoskedasticity
+### Homoskedasticity 
 
 ```{r Homoskedasticity Check}
 
 Residuals_Plot <- ggplot(fit_2, aes(x = .fitted, y = .resid)) +
   geom_point(color="#32A287") +
-  geom_hline(yintercept = 0, color ="#F0C987") + theme_minimal() + labs(title = "Homoskedasticity Check",subtitle = "Residuals", x="Fitted Values", y="Residuals", caption = "")
+  geom_hline(yintercept = 0, color ="#F0C987") + theme_minimal() + labs(title = "Homoskedasticity Check",subtitle = "Residuals", x="Fitted Values", y="Residuals", caption = "Data: Case_Study_1.csv")
 
 Residuals_Plot
 
@@ -191,7 +185,7 @@ x_range <- c(0, 2200)
 
 PREDICTIONS_FINAL$color_range <- ifelse(PREDICTIONS_FINAL$number_of_solar_panels >= x_range[1] & PREDICTIONS_FINAL$number_of_solar_panels <= x_range[2], "Data", "Predictions")
 
-Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost, color = PREDICTIONS_FINAL$color_range)) + geom_point() + scale_color_manual(values = c("Data" = "#32A287", "Predictions" = "#F0C987")) + theme_minimal()+ labs(title = "Experience Curve",subtitle = "Predictions", x="Number of Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1", color = "") 
+Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost, color = PREDICTIONS_FINAL$color_range)) + geom_point() + scale_color_manual(values = c("Data" = "#32A287", "Predictions" = "#F0C987")) + theme_minimal()+ labs(title = "Experience Curve",subtitle = "Predictions From Linear Regression (Log to Standard)", x="Number of Solar Pannels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv", color = "") 
 
 Plot3
 
@@ -202,7 +196,6 @@ Plot3
 ```{r Table Of Predictions}
 
 datatable(round(PREDICTIONS_FINAL[PREDICTIONS_FINAL$number_of_solar_panels %in% c(4700, 4800, 4900, 5000), c(1,2)], 2))
-
 
 ```
 
