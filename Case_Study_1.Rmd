@@ -144,19 +144,11 @@ Plot3
 
 ## Learning Rate
 
-$$
-b = Slope \: Coefficient = log(learning\: rate)/log_2 
-$$
-
-$$
-Slope \: of \: the \: experience \: rate = 2^b
-$$
-
 ```{r Learning Rate}
 
+Learning_Rate <- -100*fit_2$coefficients[2]
 
-Learning_Rate <- 2^(b_log)
-Learning_Rate
+print(paste(round(Learning_Rate,2),"%"))
 
 ```
 
