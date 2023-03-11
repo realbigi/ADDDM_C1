@@ -209,7 +209,11 @@ print(paste("The Learning Rate is",round(Learning_Rate,2),"%"))
 
 # Exercise 3
 
-## Predict Future Prices
+#### Question 3.1
+
+> Estimate the average production cost per solar panel for 4700, 4800, 4900 and 5000 units and compute their mean.
+
+## Predict Future Costs of Solar Panels
 
 ```{r Predict}
 
@@ -240,7 +244,7 @@ Plot3
 
 ```
 
-## Table Of Predictions
+## Table Of Future Costs of Solar Panels
 
 ```{r Table Of Predictions}
 
@@ -248,7 +252,7 @@ datatable(round(PREDICTIONS_FINAL[PREDICTIONS_FINAL$number_of_solar_panels %in% 
 
 ```
 
-## Mean of Predictions
+## Mean Cost Future Solar Panels
 
 ```{r Mean Of Predictions}
 
