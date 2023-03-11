@@ -217,4 +217,15 @@ Confidence_95_intercept <- confint(fit_2, 1, level = 0.95)
 
 Confidence_95_intercept
 
+b_upper <- Confidence_95_b[1,1]
+
+b_lower <- Confidence_95_b[1,2]
+
+intercept_upper <- Confidence_95_intercept [1,1]
+
+intercept_lower <- Confidence_95_intercept[1,2]
+
+reg_upper <- intercept_upper + b_upper * df$number_of_solar_panels
+
+reg_lower <- intercept_lower + b_lower * df$number_of_solar_panels
 ```
