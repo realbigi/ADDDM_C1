@@ -142,13 +142,13 @@ Plot3
 
 ```
 
-## Homoskedastic
+## Homoskedasticity
 
 ```{r}
 
 Plot4 <- ggplot(fit_2, aes(x = .fitted, y = .resid)) +
-  geom_point() +
-  geom_hline(yintercept = 0)
+  geom_point(color="#32A287") +
+  geom_hline(yintercept = 0, color ="#F0C987") + theme_minimal() + labs(title = "Experience Curve - Linear Regression",subtitle = "Log-Log Residuals", x="Fitted Values", y="Residuals", caption = "")
 
 Plot4
 
