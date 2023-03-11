@@ -201,6 +201,10 @@ Residuals_Plot
 
 ```
 
+> In the case of our model, based on the residual plot, there is no visible pattern or trend in the residuals, and they appear to be scattered randomly around the horizontal line at zero. This suggests that the assumption of homoskedasticity holds, and there is no evidence of heteroskedasticity in the model.
+>
+> Therefore, we can conclude that the model satisfies the assumption of homoskedasticity, which is an important assumption for obtaining unbiased and efficient estimates of the regression coefficients and standard errors.
+
 ## Learning Rate
 
 ### Formula
