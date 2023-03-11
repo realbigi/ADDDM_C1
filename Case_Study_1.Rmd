@@ -1,11 +1,13 @@
 ---
-title: "Case Study 1"
+title: "Case Study 1 - Non-Linear Regression"
 author: "Michael Daniel Bigler and Liam Arthur Phan"
 date: "`r Sys.Date()`"
 output:
   rmdformats::downcute:
     code_folding: hide
 ---
+
+> Goal: Estimate an experience curve with non-linear regression analysis, forecast variable cost development based on the estimated regression equation
 
 ```{r setup, include=FALSE}
 
@@ -25,6 +27,9 @@ cat("\014")
 
 library(ggplot2)
 library(DT)
+library(jtools)
+library(kableExtra)
+
 
 ```
 
@@ -79,6 +84,14 @@ df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 ```
 
+## Table
+
+```{r Table Data Log}
+
+datatable(round(df_log,2))
+
+```
+
 ## Scatterplot
 
 ```{r Scatter plot Log}
@@ -105,7 +118,7 @@ $$
 \log(Y) = \log(A) + b*\log(X)
 $$
 
-```{r Estimates}
+```{r Linear Regression Fixed Intercept}
 
 #fit_1 <- lm(I(df_log$number_of_solar_panels - A_log) ~ 0 + df_log$manufacturing_cost, df_log)
 
@@ -121,14 +134,14 @@ $$
 
 > Log-Log Model with No Fixed Intercept
 
-```{r Free Intercept Estimates}
+```{r Linear Regression Free Intercept}
 
 fit_2 <- lm(df_log$manufacturing_cost  ~ ., df_log)
 
 intercept_log_2 <- fit_2$coefficients[1]
 b_log_2 <- fit_2$coefficients[2]
 
-summary(fit_2)
+summ(fit_2)
 
 ```
 
@@ -136,7 +149,7 @@ summary(fit_2)
 
 ```{r Log-Linear Regression 2}
 
-Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
+Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Linear Regression", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
 
 Plot3
 
