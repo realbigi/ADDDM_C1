@@ -7,7 +7,6 @@ output:
     code_folding: hide
 ---
 
-
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(
@@ -19,6 +18,8 @@ rm(list = ls())
 cat("\014")
 
 ```
+
+<break>
 
 > Goal: Estimate an experience curve with non-linear regression analysis, forecast variable cost development based on the estimated regression equation
 
@@ -70,7 +71,7 @@ experience_curve <- function(X, A, b){
 
 df$Y_func <- experience_curve(df$number_of_solar_panels, A, b)
   
-Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Pannels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") + geom_line(aes(y=Y_func), colour="#F0C987", size=1)
+Plot1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Solar Panels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") 
 
 Plot1
 
@@ -125,7 +126,7 @@ datatable(round(df_log,2))
 
 A_log <- df_log$manufacturing_cost[1]
 
-Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv")
+Plot2 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Scatterplot", x="log(Number of Solar Panels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv")
 
 Plot2
 
@@ -166,11 +167,27 @@ summ(fit_2)
 
 #### Answer
 
+> -   R²: The coefficient of determination, which indicates the proportion of the variance in the dependent variable that can be explained by the independent variable(s). In this case, **95%** of the variance in manufacturing cost can be explained by the number of solar panels used.
+>
+> -   Adj. R²: The adjusted R² value, which takes into account the number of independent variables in the model. It is similar to R² but penalizes the addition of extraneous variables that do not improve the model's explanatory power.
+>
+> -   Standard errors: The standard error of the estimate (SE) is a measure of the precision of the regression estimates. It indicates the average amount that the actual manufacturing costs differ from the predicted values based on the regression equation.
+>
+> -   Intercept: The estimated constant value of the dependent variable when the independent variable is zero. In this case, the intercept is **7.85** which corresponds to **2565.734** in correct scale, that would be the cost of the first unit produced.
+>
+> -   number_of_solar_panels: The estimated slope coefficient, indicating how much the dependent variable changes for a increase in the independent variable in %. The slope coefficient is **-0.15**, that would mean the cost of manufacturing decrease by **15%** when we increase the number of panels produced by **1%**.
+>
+> -   t-value: The t-statistic is a measure of the significance of the regression coefficients. It tests the hypothesis that the true coefficient is zero.
+>
+> -   p-value: The p-value is the probability of obtaining the observed t-value (or more extreme) under the null hypothesis that the true coefficient is zero. A low p-value indicates that the coefficient is statistically significant and can be considered as a predictor of the dependent variable. In this case, both the intercept and the number of solar panels are significant predictors of manufacturing cost, with p-values of 0.00.
+
 #### Questions 2.2
 
 > How well does the model explain the data?
 
 #### Answer
+
+> Since R² and Adj. R² (over 0.7), as well as p-values (under 0.05) of our estimates are all statistically significants, we can say that our model is a good fit to our log data.
 
 ### Plot
 
@@ -205,6 +222,26 @@ $$ Formula $$
 Learning_Rate <- -100*fit_2$coefficients[2]
 
 print(paste("The Learning Rate is",round(Learning_Rate,2),"%"))
+
+```
+
+## Plot to Original Data
+
+```{r Plot with Estimated Coefficient}
+
+X_m <- seq(0,2200,1)
+
+Y_m <- 2565.734*X_m^(-0.15)
+
+Multiplicate_Model <- data.frame(X_m,Y_m)
+Multiplicate_Model$Y_m[1] <- 2565.734
+
+colnames(Multiplicate_Model)[1] <- "number_of_solar_panels"
+colnames(Multiplicate_Model)[2] <- "manufacturing_cost"
+
+Plot_5 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Scatterplot", x="Number of Solar Panels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") 
+ 
+Plot_5 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manufacturing_cost), color="#F0C987")
 
 ```
 
