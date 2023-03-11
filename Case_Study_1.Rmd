@@ -30,7 +30,13 @@ library(DT)
 
 # Exercise 1
 
-## Dataset
+## Data
+
+> Source: **Advanced Data Driven Decision Making** [S401024](https://moodle.unige.ch/course/view.php?id=2675 "2675") - University of Geneva (GSEM)
+>
+> Marcel Paulssen, Professor\
+> Fereshteh Vahidi, Teaching Assistant\
+> Anastasia Floru, Teaching Assistant
 
 ```{r load data}
 
@@ -64,18 +70,6 @@ Plot1
 
 ```
 
-## Formula
-
-$$
-Y = AX^b
-$$
-
-> We want a linear relationship, thus log transformation:
-
-$$
-\log(Y) = \log(A) + b*\log(X)
-$$
-
 ## Data Log Transformation
 
 ```{r Data Transformation}
@@ -85,7 +79,7 @@ df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 ```
 
-## Scatterplot Log
+## Scatterplot
 
 ```{r Scatter plot Log}
 
@@ -98,6 +92,18 @@ Plot2
 ```
 
 # Exercise 2
+
+## Formula
+
+$$
+Y = AX^b
+$$
+
+> We want a linear relationship, thus log transformation:
+
+$$
+\log(Y) = \log(A) + b*\log(X)
+$$
 
 ```{r Estimates}
 
