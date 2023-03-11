@@ -75,6 +75,32 @@ Plot1
 
 ```
 
+#### Question 1.1
+
+> Does the multiplicative learning model which assumes the following relationship: $$Y = AX^b$$ apply to this data set?
+
+#### Answer
+
+> blablabla
+
+#### Question 1.2
+
+> So the question now is to transform the data in order to get a linear relationship.
+
+#### Answer
+
+> Multiplicative Learning Model:
+
+$$
+Y = AX^b
+$$
+
+> We want a linear relationship, thus log transformation:
+
+$$
+\log(Y) = \log(A) + b*\log(X)
+$$
+
 ## Data Log Transformation
 
 ```{r Data Transformation}
@@ -106,18 +132,6 @@ Plot2
 
 # Exercise 2
 
-## Formula
-
-$$
-Y = AX^b
-$$
-
-> We want a linear relationship, thus log transformation:
-
-$$
-\log(Y) = \log(A) + b*\log(X)
-$$
-
 ```{r Linear Regression Fixed Intercept}
 
 #fit_1 <- lm(I(df_log$number_of_solar_panels - A_log) ~ 0 + df_log$manufacturing_cost, df_log)
@@ -145,6 +159,18 @@ summ(fit_2)
 
 ```
 
+#### Question 2.1
+
+> Interpret the results of the regression analysis
+
+#### Answer
+
+#### Questions 2.2
+
+> How well does the model explain the data?
+
+#### Answer
+
 ### Plot
 
 ```{r Log-Linear Regression 2}
@@ -168,6 +194,10 @@ Residuals_Plot
 ```
 
 ## Learning Rate
+
+### Formula
+
+$$ Formula $$
 
 ```{r Learning Rate}
 
