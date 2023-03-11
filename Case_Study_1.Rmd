@@ -109,7 +109,7 @@ Plot2
 
 ```
 
-## Linear Regression 
+## Linear Regression
 
 ### Model
 
@@ -136,7 +136,7 @@ Plot3
 
 ```
 
-### Homoskedasticity 
+### Homoskedasticity
 
 ```{r Homoskedasticity Check}
 
@@ -215,6 +215,8 @@ print(paste("The Mean Cost of Future Productions of Solar Panels is",round(Targe
 
 # Exercise 4
 
+## Confidence Interval of b
+
 ```{r Confidence Interval}
 
 Confidence_95_b <- confint(fit_2, 2, level = 0.95)
@@ -236,5 +238,16 @@ intercept_lower <- Confidence_95_intercept[1,2]
 reg_upper <- intercept_upper + b_upper * df$number_of_solar_panels
 
 reg_lower <- intercept_lower + b_lower * df$number_of_solar_panels
+
+```
+
+## Linear Regression with Confidence Interval
+
+```{r Linear Regression Interval}
+
+
+
+
+
 
 ```
