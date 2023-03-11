@@ -144,13 +144,26 @@ Plot3
 
 ## Homoskedasticity
 
-```{r}
+```{r Homoskedasticity Check}
 
-Plot4 <- ggplot(fit_2, aes(x = .fitted, y = .resid)) +
+Residuals_Plot <- ggplot(fit_2, aes(x = .fitted, y = .resid)) +
   geom_point(color="#32A287") +
-  geom_hline(yintercept = 0, color ="#F0C987") + theme_minimal() + labs(title = "Experience Curve - Linear Regression",subtitle = "Log-Log Residuals", x="Fitted Values", y="Residuals", caption = "")
+  geom_hline(yintercept = 0, color ="#F0C987") + theme_minimal() + labs(title = "Homoskedasticity Check",subtitle = "Residuals", x="Fitted Values", y="Residuals", caption = "")
 
-Plot4
+Residuals_Plot
+
+```
+
+## Normality
+
+```{r Normality Check}
+
+Normality_plot_Y <- ggplot(df_log, aes(sample = df_log$manufacturing_cost)) + stat_qq() + stat_qq_line()
+
+Normality_plot_X <- ggplot(df_log, aes(sample = df_log$number_of_solar_panels)) + stat_qq() + stat_qq_line()
+
+Normality_plot_Y
+Normality_plot_X
 
 ```
 
@@ -160,7 +173,7 @@ Plot4
 
 Learning_Rate <- -100*fit_2$coefficients[2]
 
-print(paste(round(Learning_Rate,2),"%"))
+print(paste("The Learning Rate is",round(Learning_Rate,2),"%"))
 
 ```
 
@@ -185,7 +198,6 @@ PREDICTIONS <- data.frame(values, predictions_final)
 colnames(PREDICTIONS)[1] ="number_of_solar_panels"
 colnames(PREDICTIONS)[2] ="manufacturing_cost"
 
-
 PREDICTIONS_FINAL <- rbind(df_original,PREDICTIONS)
 
 x_range <- c(0, 2200)
@@ -195,6 +207,15 @@ PREDICTIONS_FINAL$color_range <- ifelse(PREDICTIONS_FINAL$number_of_solar_panels
 Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost, color = PREDICTIONS_FINAL$color_range)) + geom_point() + scale_color_manual(values = c("Data" = "#32A287", "Predictions" = "#F0C987")) + theme_minimal()+ labs(title = "Experience Curve",subtitle = "Predictions", x="Number of Solar Pannels", y="Manufacturing Cost", caption = "Case Study 1", color = "") 
 
 Plot3
+
+```
+
+## Table Of Predictions
+
+```{r Table Of Predictions}
+
+datatable(round(PREDICTIONS_FINAL[PREDICTIONS_FINAL$number_of_solar_panels %in% c(4700, 4800, 4900, 5000), c(1,2)], 2))
+
 
 ```
 
@@ -208,7 +229,7 @@ Targets_Costs <- PREDICTIONS_FINAL$manufacturing_cost[PREDICTIONS_FINAL$number_o
 
 Target_Mean <- mean(Targets_Costs)
 
-Target_Mean
+print(paste("The Mean Cost of Future Productions of Solar Panels is",round(Target_Mean,2)))
 
 ```
 
