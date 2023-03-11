@@ -7,7 +7,6 @@ output:
     code_folding: hide
 ---
 
-> Goal: Estimate an experience curve with non-linear regression analysis, forecast variable cost development based on the estimated regression equation
 
 ```{r setup, include=FALSE}
 
@@ -20,6 +19,8 @@ rm(list = ls())
 cat("\014")
 
 ```
+
+> Goal: Estimate an experience curve with non-linear regression analysis, forecast variable cost development based on the estimated regression equation
 
 # Packages
 
@@ -304,3 +305,11 @@ reg_lower <- intercept_lower + b_lower * df$number_of_solar_panels
 
 
 ```
+
+# References
+
+[What Is The Experience Curve And Why It Matters In Business](https://fourweekmba.com/experience-curve/)
+
+[Experience And Learning Curves](https://www.referenceforbusiness.com/management/Em-Exp/Experience-and-Learning-Curves.html#:~:text=By%20convention%2C%20we%20refer%20to,cost%20of%20direct%20labor%20hours)
+
+[Riding The Experience Curve](https://asc.army.mil/web/news-alt-jas17-riding-the-experience-curve/)
