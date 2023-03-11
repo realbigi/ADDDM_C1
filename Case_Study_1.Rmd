@@ -134,16 +134,6 @@ Plot2
 
 # Exercise 2
 
-```{r Linear Regression Fixed Intercept}
-
-#fit_1 <- lm(I(df_log$number_of_solar_panels - A_log) ~ 0 + df_log$manufacturing_cost, df_log)
-
-#b_log <- fit_1$coefficients
-
-#summary(fit_1)
-
-```
-
 ## Linear Regression
 
 ### Model
@@ -193,7 +183,7 @@ summ(fit_2)
 
 ```{r Log-Linear Regression 2}
 
-Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Linear Regression", x="log(Number of Solar Pannels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
+Plot3 <- ggplot(df_log, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve - Log Data",subtitle = "Linear Regression", x="log(Number of Solar Panels)", y="log(Manufacturing Cost)", caption = "Data: Case_Study_1.csv") + geom_abline(intercept = intercept_log_2, slope = b_log_2, color="#F0C987", size=1) 
 
 Plot3
 
@@ -231,10 +221,10 @@ print(paste("The Learning Rate is",round(Learning_Rate,2),"%"))
 
 X_m <- seq(0,2200,1)
 
-Y_m <- 2565.734*X_m^(-0.15)
+Y_m <- exp(fit_2$coefficients[1])*X_m^(fit_2$coefficients[2])
 
 Multiplicate_Model <- data.frame(X_m,Y_m)
-Multiplicate_Model$Y_m[1] <- 2565.734
+Multiplicate_Model$Y_m[1] <- exp(fit_2$coefficients[1])
 
 colnames(Multiplicate_Model)[1] <- "number_of_solar_panels"
 colnames(Multiplicate_Model)[2] <- "manufacturing_cost"
@@ -276,9 +266,19 @@ x_range <- c(0, 2200)
 
 PREDICTIONS_FINAL$color_range <- ifelse(PREDICTIONS_FINAL$number_of_solar_panels >= x_range[1] & PREDICTIONS_FINAL$number_of_solar_panels <= x_range[2], "Data", "Predictions")
 
-Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost, color = PREDICTIONS_FINAL$color_range)) + geom_point() + scale_color_manual(values = c("Data" = "#32A287", "Predictions" = "#F0C987")) + theme_minimal()+ labs(title = "Experience Curve",subtitle = "Predictions From Linear Regression (Log to Standard)", x="Number of Solar Pannels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv", color = "") 
+Plot3 <- ggplot(PREDICTIONS_FINAL, aes(x=number_of_solar_panels, y=manufacturing_cost, color = PREDICTIONS_FINAL$color_range)) + geom_point() + scale_color_manual(values = c("Data" = "#32A287", "Predictions" = "#F0C987")) + theme_minimal()+ labs(title = "Experience Curve",subtitle = "Predictions From Linear Regression (Log to Standard)", x="Number of Solar Panels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv", color = "") 
 
-Plot3
+X_m <- seq(0,2200,1)
+
+Y_m <- exp(fit_2$coefficients[1])*X_m^(fit_2$coefficients[2])
+
+Multiplicate_Model <- data.frame(X_m,Y_m)
+Multiplicate_Model$Y_m[1] <- exp(fit_2$coefficients[1])
+
+colnames(Multiplicate_Model)[1] <- "number_of_solar_panels"
+colnames(Multiplicate_Model)[2] <- "manufacturing_cost"
+
+Plot3 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manufacturing_cost), color="#F0C987")
 
 ```
 
