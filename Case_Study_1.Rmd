@@ -154,19 +154,6 @@ Residuals_Plot
 
 ```
 
-## Normality
-
-```{r Normality Check}
-
-Normality_plot_Y <- ggplot(df_log, aes(sample = df_log$manufacturing_cost)) + stat_qq() + stat_qq_line()
-
-Normality_plot_X <- ggplot(df_log, aes(sample = df_log$number_of_solar_panels)) + stat_qq() + stat_qq_line()
-
-Normality_plot_Y
-Normality_plot_X
-
-```
-
 ## Learning Rate
 
 ```{r Learning Rate}
