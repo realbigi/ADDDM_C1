@@ -45,6 +45,8 @@ library(kableExtra)
 > Fereshteh Vahidi, Teaching Assistant\
 > Anastasia Floru, Teaching Assistant
 
+## Table
+
 ```{r load data}
 
 df_original <- read.csv('Case_Study_1.csv')
