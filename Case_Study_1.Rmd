@@ -83,7 +83,7 @@ Plot1
 
 #### Answer
 
-> blablabla
+> Yes
 
 #### Question 1.2
 
@@ -395,7 +395,7 @@ Plot_5.1 + geom_line(CI95, mapping=aes(number_of_solar_panels, lower), color="#A
 
 ``` 
 
-## Average Cost of Predictions with Confidence Interval
+## Average Cost of Predictions with Confidence Interval 95%
 
 ### Table Of Predictions 
 
@@ -426,7 +426,7 @@ datatable(round(CI95,2))
 
 ```
 
-### Mean Cost Of Future Solar Panels Production with Confidence Interval Of 95%
+### Mean Cost Of Future Solar Panels Production
 
 ```{r Mean Cost Of Future Solar Panels Production with Confidence Interval Of 95%}
 
