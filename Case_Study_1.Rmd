@@ -244,7 +244,7 @@ Residuals_Plot
 
 ```{r Learning Rate & price of first solar panel}
 
-Learning_Rate <- -100*fit_2$coefficients[2]
+Learning_Rate <- 2^(fit_2$coefficients[2])*100
 A <- exp(fit_2$coefficients[1])
 
 ```
