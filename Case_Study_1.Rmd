@@ -34,10 +34,9 @@ library(DT)
 library(jtools)
 library(kableExtra)
 
-
 ```
 
-# Exercise 1 - Analyse the data
+# Exercise 1
 
 > In Exercise 1 we get to know the data. We will show that a multiplicative model can be used for the data presented and how to transform to a linear model. 
 
