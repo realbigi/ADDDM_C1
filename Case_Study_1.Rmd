@@ -25,6 +25,8 @@ cat("\014")
 
 # Packages
 
+> In the following all the packages needed for this case study are loaded. 
+
 ```{r packages}
 
 library(ggplot2)
@@ -35,9 +37,13 @@ library(kableExtra)
 
 ```
 
-# Exercise 1
+# Exercise 1 - Analyse the data
+
+> In Exercise 1 we get to know the data. We will show that a multiplicative model can be used for the data presented and how to transform to a linear model. 
 
 ## Data
+
+> Down below we have a look at the presented data of the prices of solar panels according to the cumulative production quantities. The source is thereby listed below. 
 
 > Source: **Advanced Data Driven Decision Making** [S401024](https://moodle.unige.ch/course/view.php?id=2675 "2675") - University of Geneva (GSEM)
 >
@@ -45,7 +51,9 @@ library(kableExtra)
 > Fereshteh Vahidi, Teaching Assistant\
 > Anastasia Floru, Teaching Assistant
 
-## Table
+### Table
+
+> Here we see the data in a table form sorted from smallest cumulative quantity to biggest.
 
 ```{r load data}
 
@@ -57,7 +65,11 @@ df <- df_original
 
 ```
 
-## Scatterplot
+> As we can not see a lot based on the table we plot the data in a scatterplot. 
+
+### Scatterplot
+
+> Here we see the scatterplot of the data with the cumulative quantity of produced solarpanels on the x axis and the corresponding produciton costs on the y axis. 
 
 ```{r Scatter plot}
 
@@ -85,7 +97,7 @@ Plot1
 
 #### Answer
 
-> Yes
+> As we can observe from the plot the form of the scatter resembles the form of a multiplicative model. The best values of the parameters A and b for a good fit of the model is yet to be defined and will be done in the course of this case study. 
 
 #### Question 1.2
 
@@ -99,13 +111,17 @@ $$
 Y = AX^b
 $$
 
-> We want a linear relationship, thus log transformation:
+> We want a linear relationship, thus we do a log transformation which gives us the following formula:
 
 $$
 \log(Y) = \log(A) + b*\log(X)
 $$
 
-## Data Log Transformation
+> We see that this formula follows one of a linear model. 
+
+## Data Log transformed
+
+> To see this linear relationship we do a log transformation of both of the variables and show the table and scatterplot again with the transformed data.
 
 ```{r Data Transformation}
 
@@ -114,7 +130,9 @@ df_log$manufacturing_cost <- log(df_log$manufacturing_cost)
 
 ```
 
-## Table
+### Table
+
+> Here we see the table of the log transformed data.
 
 ```{r Table Data Log}
 
@@ -122,7 +140,9 @@ datatable(round(df_log,2))
 
 ```
 
-## Scatterplot
+### Scatterplot
+
+> To see the relationship between the variable we again do a scatterplot of the data. 
 
 ```{r Scatter plot Log}
 
@@ -134,13 +154,19 @@ Plot2
 
 ```
 
+> We can observe that there is no more curve in the data and that the scatter follows a straight line. 
+
 # Exercise 2
+
+> In Exercise 2 we focus on a linear regression on the data as well as the estimation of the parameter A and b. 
 
 ## Linear Regression
 
+> We will now fit a linear regression to the log transformed data and then comment the results of the regression. 
+
 ### Model
 
-> Log-Log Model with No Fixed Intercept
+> Here we fit a Log-Log Model with No Fixed Intercept.
 
 ```{r Linear Regression Free Intercept}
 
@@ -179,9 +205,11 @@ summ(fit_2)
 
 #### Answer
 
-> Since R² and Adj. R² (over 0.7), as well as p-values (under 0.05) of our estimates are all statistically significants, we can say that our model is a good fit to our log data.
+> Since R² and Adj. R² (over 0.7), as well as p-values (under 0.05) of our estimates are all statistically significant, we can say that our model is a good fit to our log data.
 
 ### Plot
+
+> Here we plot the regression on top of the logged data. 
 
 ```{r Log-Linear Regression 2}
 
@@ -191,7 +219,11 @@ Plot3
 
 ```
 
+> We see that the model fits the data well. 
+
 ### Homoskedasticity
+
+> To enusre that our results from before are good we check the residuals of the regression. 
 
 ```{r Homoskedasticity Check}
 
@@ -207,30 +239,31 @@ Residuals_Plot
 >
 > Therefore, we can conclude that the model satisfies the assumption of homoskedasticity, which is an important assumption for obtaining unbiased and efficient estimates of the regression coefficients and standard errors.
 
-## Learning Rate
+## Learning Rate & Price of first solar panel
 
-### Formula
+> Next we will estimate the learning rate based on the results of our regression as well as the price of the first produced solar panel. 
 
-$$ Formula $$
-
-```{r Learning Rate}
+```{r Learning Rate & price of first solar panel}
 
 Learning_Rate <- -100*fit_2$coefficients[2]
-
-print(paste("The Learning Rate is",round(Learning_Rate,2),"%"))
+A <- exp(fit_2$coefficients[1])
 
 ```
 
+> The learning rate is `r round(Learning_Rate,2)`% and the price of the first solar panel is estimated at `r round(A, 2)`\$. 
+
 ## Plot to Original Data
+
+> As all of the parameters for the multiplicative model are now defined we can plot the multiplicative model to the original data.
 
 ```{r Plot with Estimated Coefficient}
 
 X_m <- seq(0,2200,1)
 
-Y_m <- exp(fit_2$coefficients[1])*X_m^(fit_2$coefficients[2])
+Y_m <- A*X_m^(fit_2$coefficients[2])
 
 Multiplicate_Model <- data.frame(X_m,Y_m)
-Multiplicate_Model$Y_m[1] <- exp(fit_2$coefficients[1])
+Multiplicate_Model$Y_m[1] <- A
 
 colnames(Multiplicate_Model)[1] <- "number_of_solar_panels"
 colnames(Multiplicate_Model)[2] <- "manufacturing_cost"
@@ -241,13 +274,19 @@ Plot_5 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manuf
 
 ```
 
+> We see that the model fits the data very well and that the answer to the question 1.1 was correct. 
+
 # Exercise 3
+
+> In exercise 3 we will now estimate the manufacturing costs of Heliotronics for the production of the 400 solar panels for the Swiss client. The estimation is based on the expected production until April 2022. 
 
 #### Question 3.1
 
 > Estimate the average production cost per solar panel for 4700, 4800, 4900 and 5000 units and compute their mean.
 
 ## Predict Future Costs of Solar Panels
+
+> To estimate the average production cost of the 400 solar panels we need to predict the production cost for the cumulative production quantities up until 5000. This is due to Heliontronics expected production until the production of the solar panels for Switzerland. Down below we do this prediciton. 
 
 ```{r Predict}
 
@@ -290,6 +329,8 @@ Plot6 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manufa
 
 ## Table Of Future Costs of Solar Panels
 
+> As we only need the costs for the cumulative production quantities from 4700 until 5000 to estimate the average cost for the 400 panels we only show these 4 values in the table below. 
+
 ```{r Table Of Predictions}
 
 datatable(round(PREDICTIONS_FINAL[PREDICTIONS_FINAL$number_of_solar_panels %in% c(4700, 4800, 4900, 5000), c(1,2)], 2))
@@ -297,6 +338,8 @@ datatable(round(PREDICTIONS_FINAL[PREDICTIONS_FINAL$number_of_solar_panels %in% 
 ```
 
 ## Mean Cost Future Solar Panels
+
+> To get the estimated price for the 400 panels ordered by Switzerland we average the cost of the production for the panels from 4700 until 5000.
 
 ```{r Mean Of Predictions}
 
@@ -306,13 +349,17 @@ Targets_Costs <- PREDICTIONS_FINAL$manufacturing_cost[PREDICTIONS_FINAL$number_o
 
 Target_Mean <- mean(Targets_Costs)
 
-print(paste("The Mean Cost of Future Productions of Solar Panels is",round(Target_Mean,2)))
-
 ```
+
+> The mean cost of future productions of solar panels is `r round(Target_Mean,2)`
 
 # Exercise 4
 
+> In exercise 4 we compute a 95% confidence intervall of the expected value which shows what kind of deviations could be expected. 
+
 ## Confidence Interval (95%)
+
+> Here we compute the 95% confidence interval of the regression. 
 
 ```{r Confidence Interval}
 
@@ -332,23 +379,19 @@ intercept_lower <- Confidence_95_intercept[1,2]
 
 ### Of Parameter b
 
-```{r CI b}
+> With 95% certainty the value of the parameter b will be in between `r b_lower` and `r b_upper`. 
 
-Confidence_95_b 
+### Of A (Intercept)
 
-```
-
-### Of Intercept
-
-```{r CI Intercept}
-
-Confidence_95_intercept
-
-```
+> Similarily the value of A will be in between `r intercept_lower`and `r intercept_upper` with 95 certainty. 
 
 ## Linear Regression with Confidence Interval
 
+> Here we now show the results of the linear regression as well as the calculation of the confidence interval. 
+
 ### Plot with Log-Log Linear Regression
+
+> First we show the regression line with the confidence intervals on the log transformed data. 
 
 ```{r Log-Linear Regression CI}
 
@@ -360,7 +403,11 @@ Plot8
 
 ### Linear Regression On Original Data with Confidence Interval
 
+> Now we show a table of the estimates of the regression model and the confidence intervals before we plot the data on to a scatter plot.
+
 #### Table Of Confidence Interval with 95%
+
+> Here we see the table of the estimates and the confidence intervals. 
 
 ```{r Confidence Interval Dataframe}
 
@@ -389,6 +436,8 @@ datatable(round(CI95,2))
 
 #### Plot 
 
+> In the following we see the final scatterplot which shows the origianl data, the fitted regressions as well as the confidence intervals. 
+
 ```{r plot with CI from Log log Regression on Original Data}
 
 Plot_5.1 <- ggplot(df, aes(x=number_of_solar_panels, y=manufacturing_cost)) + geom_point(color="#32A287") + theme_minimal() + labs(title = "Experience Curve",subtitle = "Multiplicative Model - Parameters From Log-Log Linear Regression", x="Number of Solar Panels", y="Manufacturing Cost", caption = "Data: Case_Study_1.csv") + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manufacturing_cost), color="#F0C987")
@@ -399,7 +448,11 @@ Plot_5.1 + geom_line(CI95, mapping=aes(number_of_solar_panels, lower), color="#A
 
 ## Average Cost of Predictions with Confidence Interval 95%
 
+> Having calculated the confidene intervals for the whole model we can now compute the confidence intervals for the estimated average price of production for the 400 solar panels.  
+
 ### Table Of Predictions 
+
+> Here we see a table of the predictions with their upper and lower confidence intervals. 
 
 ```{r Confidence Interval Dataframe 2}
 
@@ -430,6 +483,8 @@ datatable(round(CI95,2))
 
 ### Mean Cost Of Future Solar Panels Production
 
+> Lastly we can now see the average production cost with the upper and lower bound at 95% certainty. 
+
 ```{r Mean Cost Of Future Solar Panels Production with Confidence Interval Of 95%}
 
 
@@ -445,6 +500,13 @@ colnames(Mean_CI)[3] <- "Upper"
 datatable(round(Mean_CI,2), caption = "Mean Cost - round to 2 decimals")
 
 ```
+
+```{r average cost for production}
+Total_Production_Cost <- round(Mean_CI * 400, 2)
+options(scipen=999)
+```
+
+> Therefore we can inform that the estimated price of production for all of the 400 solar panels is at `r Total_Production_Cost[1,2]`\$ and that with 95% certainty it should be in between `r Total_Production_Cost[1,1]`\$ and `r Total_Production_Cost[1,3]`\$. The price for the bid should therefore be calculated based on the mean value and the wanted profit on this sale. To have less risk and a higher chance to acutally reach the wanted profit the bid price could be calculated based on the upper value. 
 
 # References
 
