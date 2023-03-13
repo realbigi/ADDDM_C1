@@ -238,18 +238,34 @@ Residuals_Plot
 >
 > Therefore, we can conclude that the model satisfies the assumption of homoskedasticity, which is an important assumption for obtaining unbiased and efficient estimates of the regression coefficients and standard errors.
 
-## Learning Rate & Price of first solar panel
+## Learning Rate & Progress Ratio
 
 > Next we will estimate the learning rate based on the results of our regression as well as the price of the first produced solar panel. 
 
-```{r Learning Rate & price of first solar panel}
+$$ Progress \ Ratio = 2^{b} $$
 
-Learning_Rate <- 2^(fit_2$coefficients[2])*100
+$$ Learning \ Rate = 1-Progress \ Ratio $$
+
+
+```{r Learning Rate & Progress Ratio}
+
+Progress_Ratio <- 2^(fit_2$coefficients[2])
+Learning_Rate <- 1-Progress_Ratio
+
+PR_LR <- data.frame(Progress_Ratio,Learning_Rate)
+
+colnames(PR_LR)[1] <- "Progress Ratio %"
+colnames(PR_LR)[2] <- "Learning Rate %"
+
+rownames(PR_LR)[1] <- "Solar Panels Production"
+
+datatable(100*round(PR_LR,3))
+
+# Intercept Exp()
 A <- exp(fit_2$coefficients[1])
 
 ```
 
-> The learning rate is `r round(Learning_Rate,2)`% and the price of the first solar panel is estimated at `r round(A, 2)`\$. 
 
 ## Plot to Original Data
 
@@ -274,6 +290,27 @@ Plot_5 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manuf
 ```
 
 > We see that the model fits the data very well and that the answer to the question 1.1 was correct. 
+
+## Final Parameters of the Multiplicative Model - Experience Curve
+
+```{r Final Parameters}
+
+A <- exp(fit_2$coefficients[1])
+slope_b <- fit_2$coefficients[2]
+
+Parameters <- data.frame(A,slope_b)
+
+colnames(Parameters)[1] <- "Intercept"
+colnames(Parameters)[2] <- "b"
+
+rownames(Parameters)[1] <- " Multiplicative Model - Parameters"
+
+datatable(round(Parameters,3))
+
+```
+
+
+> The price of the first solar panel is estimated at `r round(A, 2)`\$. 
 
 # Exercise 3
 
