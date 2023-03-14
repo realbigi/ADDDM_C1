@@ -21,7 +21,7 @@ cat("\014")
 
 <break>
 
-> Goal: Estimate an experience curve with non-linear regression analysis, forecast variable cost development based on the estimated regression equation
+> Goal: Estimate an experience curve with non-linear regression analysis, forecast variable cost development based on the estimated regression equation.
 
 # Packages
 
@@ -38,7 +38,7 @@ library(kableExtra)
 
 # Exercise 1
 
-> In Exercise 1 we get to know the data. We will show that a multiplicative model can be used for the data presented and how to transform to a linear model. 
+> In Exercise 1 we get to know the data. We will show that a multiplicative model can be used for the data presented and how to transform the data such that we can use a linear model. 
 
 ## Data
 
@@ -52,7 +52,7 @@ library(kableExtra)
 
 ### Table
 
-> Here we see the data in a table form sorted from smallest cumulative quantity to biggest.
+> Here we see the data in the form of a table sorted from smallest cumulative quantity to biggest.
 
 ```{r load data}
 
@@ -90,17 +90,35 @@ Plot1
 
 ```
 
+> We see that there is a decresing trend which is not linear but curved. 
+
 #### Question 1.1
 
 > Does the multiplicative learning model which assumes the following relationship: $$Y = AX^b$$ apply to this data set?
 
 #### Answer
 
-> As we can observe from the plot the form of the scatter resembles the form of a multiplicative model. The best values of the parameters A and b for a good fit of the model is yet to be defined and will be done in the course of this case study. 
+> To answer this question we will plot an example of a multiplicative model on example data.
+
+```{r multiplicative model}
+multiplicative_model <- function(A,X,b){
+  Y = A*(X**b)
+  return(Y)
+}
+
+X <- 1:2500
+Y <- multiplicative_model(1300, X, -0.2)
+example_multiplicative_model <- as.data.frame(cbind(X,Y))
+
+ggplot(example_multiplicative_model, aes(x=X, y=Y)) +
+  geom_line(color="#32A287") + theme_minimal() + labs(title = "Multiplicative Model")
+```
+
+> As we can observe from the plot the form of the scatterplot from before resembles the form of the examplative plot from the multiplicative model. The best values of the parameters A and b for a good fit of the model is yet to be defined and will be done in the course of this case study. 
 
 #### Question 1.2
 
-> So the question now is to transform the data in order to get a linear relationship.
+> So the question now is how to transform the data in order to get a linear relationship.
 
 #### Answer
 
@@ -141,7 +159,7 @@ datatable(round(df_log,2))
 
 ### Scatterplot
 
-> To see the relationship between the variable we again do a scatterplot of the data. 
+> To see the relationship between the variables we again do a scatterplot of the data. 
 
 ```{r Scatter plot Log}
 
@@ -153,7 +171,7 @@ Plot2
 
 ```
 
-> We can observe that there is no more curve in the data and that the scatter follows a straight line. 
+> We can observe that there is no more curve and that the scatter follows more or less a straight line. 
 
 # Exercise 2
 
@@ -240,12 +258,13 @@ Residuals_Plot
 
 ## Learning Rate & Progress Ratio
 
-> Next we will estimate the learning rate based on the results of our regression as well as the price of the first produced solar panel. 
+> Next we will estimate the learning rate based on the results of our regression. In our regression we estimated the parameter b which is needed to get the progress ratio and therefore the learning rate.
 
 $$ Progress \ Ratio = 2^{b} $$
 
 $$ Learning \ Rate = 1-Progress \ Ratio $$
 
+> Following these formulas we retrieve the values shown below for the Progress Ratio and the Learning Rate. 
 
 ```{r Learning Rate & Progress Ratio}
 
@@ -261,17 +280,31 @@ rownames(PR_LR)[1] <- "Solar Panels Production"
 
 datatable(100*round(PR_LR,3))
 
-# Intercept Exp()
-A <- exp(fit_2$coefficients[1])
-
 ```
 
+## Price of first solar panel
+
+> The other missing parameter of the multiplicative model is the price of the first produced solar panel (Intercept). To get this parameter we need to do the following transformation on the intercept:
+
+$$ Price \ of \ first \ solar \ panel = exp(Intercept) $$ 
+
+> When we follow the formula above we get the following value for the first price:
+
+```{r first price of solar panel}
+A <- data.frame(exp(fit_2$coefficients[1]))
+colnames(A)[1] <- "Intercept"
+
+datatable(round(A,3))
+```
 
 ## Plot to Original Data
 
 > As all of the parameters for the multiplicative model are now defined we can plot the multiplicative model to the original data.
 
 ```{r Plot with Estimated Coefficient}
+
+# Intercept Exp()
+A <- exp(fit_2$coefficients[1])
 
 X_m <- seq(0,2200,1)
 
@@ -293,9 +326,10 @@ Plot_5 + geom_line(Multiplicate_Model, mapping=aes(number_of_solar_panels, manuf
 
 ## Final Parameters of the Multiplicative Model - Experience Curve
 
+> Down below we will show the final parameters of the multiplicative model. 
+
 ```{r Final Parameters}
 
-A <- exp(fit_2$coefficients[1])
 slope_b <- fit_2$coefficients[2]
 
 Parameters <- data.frame(A,slope_b)
@@ -308,9 +342,6 @@ rownames(Parameters)[1] <- " Multiplicative Model - Parameters"
 datatable(round(Parameters,3))
 
 ```
-
-
-> The price of the first solar panel is estimated at `r round(A, 2)`\$. 
 
 # Exercise 3
 
@@ -407,19 +438,19 @@ b_upper <- Confidence_95_b[1,1]
 
 b_lower <- Confidence_95_b[1,2]
 
-intercept_upper <- Confidence_95_intercept [1,1]
+intercept_upper <- exp(Confidence_95_intercept [1,1])
 
-intercept_lower <- Confidence_95_intercept[1,2]
+intercept_lower <- exp(Confidence_95_intercept[1,2])
 
 ```
 
 ### Of Parameter b
 
-> With 95% certainty the value of the parameter b will be in between `r b_lower` and `r b_upper`. 
+> With 95% certainty the value of the parameter b will be in between `r round(b_lower,2)` and `r round(b_upper,2)`. 
 
 ### Of A (Intercept)
 
-> Similarily the value of A will be in between `r intercept_lower`and `r intercept_upper` with 95 certainty. 
+> Similarily the value of A will be in between `r round(intercept_lower,2)`and `r round(intercept_upper,2)` with 95 certainty. 
 
 ## Linear Regression with Confidence Interval
 
